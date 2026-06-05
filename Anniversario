@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Regalo di Anniversario</title>
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #ffe6f0, #fff);
+    overflow: hidden;
+}
+
+h1 {
+    color: #d63384;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.buttons {
+    position: relative;
+}
+
+button {
+    padding: 15px 30px;
+    font-size: 20px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    margin: 10px;
+}
+
+#si {
+    background: #28a745;
+    color: white;
+    position: absolute;
+}
+
+#no {
+    background: #dc3545;
+    color: white;
+    position: relative;
+}
+
+#gift {
+    display: none;
+    margin-top: 30px;
+    max-width: 300px;
+    animation: pop 0.6s ease;
+}
+
+@keyframes pop {
+    from {transform: scale(0);}
+    to {transform: scale(1);}
+}
+</style>
+</head>
+
+<body>
+
+<h1>Vuoi scoprire il tuo regalo di anniversario? 🎁</h1>
+
+<div class="buttons">
+    <button id="si">Sì</button>
+    <button id="no">No</button>
+</div>
+
+<img id="gift" src="https://upload.wikimedia.org/wikipedia/commons/9/9e/Tennis_racket_and_balls.jpg" alt="Racchetta da tennis">
+
+<script>
+const si = document.getElementById("si");
+const no = document.getElementById("no");
+const gift = document.getElementById("gift");
+
+function moveButton() {
+    const x = Math.random() * (window.innerWidth - 150);
+    const y = Math.random() * (window.innerHeight - 150);
+
+    si.style.left = x + "px";
+    si.style.top = y + "px";
+}
+
+si.addEventListener("mouseover", moveButton);
+si.addEventListener("touchstart", moveButton);
+
+no.addEventListener("click", (e) => {
+    e.preventDefault();
+});
+
+si.addEventListener("click", () => {
+    gift.style.display = "block";
+});
+</script>
+
+</body>
+</html>
