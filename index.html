@@ -64,29 +64,21 @@ button{
 
 /* IMMAGINE FINALE */
 #gift{
-    display:none;
     position:absolute;
     top:55%;
     left:50%;
-    transform:translateX(-50%);
+    transform:translate(-50%,-50%) scale(0);
     width:200px;
     max-width:70vw;
+    opacity:0;
+    transition:all .4s ease;
+    z-index:9999;
 }
 
-.show{
-    display:block;
-    animation:pop .5s ease;
-}
-
-@keyframes pop{
-    from{
-        transform:translateX(-50%) scale(0);
-        opacity:0;
-    }
-    to{
-        transform:translateX(-50%) scale(1);
-        opacity:1;
-    }
+/* quando appare */
+#gift.show{
+    transform:translate(-50%,-50%) scale(1);
+    opacity:1;
 }
 </style>
 </head>
@@ -99,8 +91,8 @@ button{
     <button id="si">Sì</button>
     <button id="no">No</button>
 
-    <!-- IMMAGINE LOCALE (FIX PATH IMPORTANTE) -->
-    <img id="gift" src="./IMG_3842.jpeg" alt="regalo">
+    <!-- IMMAGINE -->
+    <img id="gift" src="IMG_3842.jpeg" alt="regalo">
 </div>
 
 <script>
@@ -111,7 +103,7 @@ const gift = document.getElementById("gift");
 let moves = 0;
 const maxMoves = 4;
 
-/* movimento bottone SÌ */
+/* bottone che scappa */
 function moveYes(){
     if(moves >= maxMoves) return;
 
@@ -126,18 +118,18 @@ function moveYes(){
     moves++;
 }
 
-/* desktop + mobile */
+/* mobile + desktop */
 si.addEventListener("mouseover", moveYes);
 si.addEventListener("touchstart", moveYes);
 
-/* blocca NO */
-no.addEventListener("click", e=>{
-    e.preventDefault();
-});
-
-/* mostra regalo */
+/* click finale */
 si.addEventListener("click", ()=>{
     gift.classList.add("show");
+});
+
+/* NO disattivato */
+no.addEventListener("click", e=>{
+    e.preventDefault();
 });
 </script>
 
