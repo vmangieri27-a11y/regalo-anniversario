@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Buon Anniversario</title>
 
 <style>
@@ -21,9 +20,8 @@ body{
 /* LANDING */
 #landing{
     position:fixed;
-    width:100%;
-    height:100vh;
-    background:linear-gradient(135deg,#ffdde1,#ee9ca7);
+    inset:0;
+    background:linear-gradient(135deg,#ff9a9e,#fad0c4);
     display:flex;
     flex-direction:column;
     justify-content:center;
@@ -34,7 +32,7 @@ body{
 }
 
 #landing h1{
-    font-size:32px;
+    font-size:34px;
     margin-bottom:10px;
 }
 
@@ -45,13 +43,20 @@ body{
 
 #startBtn{
     margin-top:20px;
-    padding:14px 30px;
+    padding:16px 34px;
     font-size:18px;
     border:none;
     border-radius:999px;
     background:white;
     color:#d63384;
     font-weight:bold;
+    animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+    0%{transform:scale(1);}
+    50%{transform:scale(1.05);}
+    100%{transform:scale(1);}
 }
 
 /* MAIN */
@@ -59,6 +64,12 @@ body{
     display:none;
     height:100vh;
     text-align:center;
+    animation:fadeIn 1s ease;
+}
+
+@keyframes fadeIn{
+    from{opacity:0;}
+    to{opacity:1;}
 }
 
 h1{
@@ -74,12 +85,15 @@ h1{
     height:75vh;
 }
 
+/* BOTTONI */
 button{
     position:absolute;
     padding:16px 32px;
     font-size:20px;
     border:none;
     border-radius:999px;
+    cursor:pointer;
+    box-shadow:0 6px 15px rgba(0,0,0,0.15);
 }
 
 #si{
@@ -96,12 +110,13 @@ button{
     top:40%;
 }
 
+/* IMMAGINE */
 #gift{
     display:none;
     position:absolute;
     left:50%;
     top:58%;
-    transform:translate(-50%,-50%);
+    transform:translate(-50%,-50%) scale(0.5);
     width:320px;
     max-width:85vw;
     border-radius:20px;
@@ -110,13 +125,31 @@ button{
 
 .show{
     display:block !important;
-    animation:pop .8s ease;
+    animation:pop 0.8s ease forwards;
 }
 
 @keyframes pop{
     0%{transform:translate(-50%,-50%) scale(0.2); opacity:0;}
     70%{transform:translate(-50%,-50%) scale(1.1); opacity:1;}
     100%{transform:translate(-50%,-50%) scale(1); opacity:1;}
+}
+
+/* CONFETTI */
+.confetti{
+    position:fixed;
+    width:10px;
+    height:10px;
+    background:red;
+    top:-10px;
+    animation:fall 3s linear forwards;
+    z-index:99999;
+}
+
+@keyframes fall{
+    to{
+        transform:translateY(110vh) rotate(720deg);
+        opacity:0;
+    }
 }
 </style>
 </head>
@@ -126,11 +159,11 @@ button{
 <!-- LANDING -->
 <div id="landing">
     <h1>💖 Buon Anniversario 💖</h1>
-    <p>Ho preparato una piccola sorpresa per te...</p>
+    <p>Ho preparato qualcosa per te...</p>
     <button id="startBtn">Scopri</button>
 </div>
 
-<!-- MUSICA (puoi cambiarla) -->
+<!-- MUSICA -->
 <audio id="music" loop>
     <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8b1f3b8b5.mp3?filename=soft-piano-ambient-110397.mp3" type="audio/mpeg">
 </audio>
@@ -166,12 +199,15 @@ const area = document.getElementById("area");
 let fughe = 0;
 const maxFughe = 4;
 
-/* START */
+/* START + AUDIO */
 startBtn.addEventListener("click", () => {
+
     landing.style.display = "none";
     main.style.display = "block";
 
+    music.volume = 0.6;
     music.play().catch(()=>{});
+
 });
 
 /* bottone che scappa */
@@ -185,6 +221,7 @@ function sposta(){
 }
 
 si.addEventListener("click", (e) => {
+
     if(fughe < maxFughe){
         e.preventDefault();
         sposta();
@@ -192,11 +229,27 @@ si.addEventListener("click", (e) => {
     }
 
     gift.classList.add("show");
+    createConfetti();
 });
 
-no.addEventListener("click", (e)=>{
+/* NO disattivato */
+no.addEventListener("click", e=>{
     e.preventDefault();
 });
+
+/* CONFETTI WOW */
+function createConfetti(){
+    for(let i=0;i<40;i++){
+        const c = document.createElement("div");
+        c.classList.add("confetti");
+        c.style.left = Math.random()*100 + "vw";
+        c.style.background = `hsl(${Math.random()*360},100%,70%)`;
+        c.style.animationDuration = (2+Math.random()*2)+"s";
+        document.body.appendChild(c);
+
+        setTimeout(()=>c.remove(),4000);
+    }
+}
 
 </script>
 
